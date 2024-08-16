@@ -1,8 +1,14 @@
+// import { IoIosRefresh } from "react-icons/io";
 import banner from "../../../images/banner.jpg";
+import useProducts from "../../customComponent/useProducts";
 import ProductCard from "../../shaireComponent/ProductCard";
-import FilterComponent from "./FilterComponent";
+import DropdownsComponents from "./DropdownsComponents";
+import FiltersComponents from "./FiltersComponents";
+import Reset from "./Reset";
+import SearchComponent from "./SearchComponent";
 
 export default function Products() {
+  const { products } = useProducts();
   return (
     <div className="w-full">
       <div
@@ -20,36 +26,21 @@ export default function Products() {
       </div>
 
       {/* =========  */}
-      <FilterComponent></FilterComponent>
+      <div className="w-full py-6 px-3 bg-red-50">
+        <div className="flex flex-col md:flex-row items-center justify-center gap-3 container mx-auto">
+          <SearchComponent></SearchComponent>
+          <FiltersComponents></FiltersComponents>
+          <DropdownsComponents></DropdownsComponents>
+          <Reset></Reset>
+        </div>
+      </div>
 
       <div className="w-full bg-[#9720206c]">
         {/* Product Cards */}
-        <div className="grid responsive container mx-auto py-10 px-2 gap-3">
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+        <div className="grid responsive z-0 container mx-auto py-10 px-2 gap-3">
+          {products.map((item, idx) => (
+            <ProductCard item={item} key={idx} />
+          ))}
         </div>
       </div>
     </div>

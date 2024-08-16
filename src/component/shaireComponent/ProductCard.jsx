@@ -1,66 +1,90 @@
-import productImage from "../../images/product-1-1.jpg"; // Import the image correctly
+import Swal from "sweetalert2";
 
-export default function ProductCard() {
-  // Example product data
-  const product = {
-    productName: "Awesome Product",
-    productImage: productImage, // Use the imported image
-    description: "This is a great product that you will love!",
-    price: 99.99,
-    category: "Electronics",
-    ratings: 4,
-    creationDate: "2024-08-16T12:00:00Z",
-    brandName: "CoolBrand",
+export default function ProductCard({ item }) {
+  // Function to handle "Add to Cart" button click
+  const handleAddToCart = () => {
+    Swal.fire({
+      title: "Added to Cart",
+      text: `${item.productName} has been added to your cart.`,
+      icon: "success",
+      confirmButtonText: "OK",
+      confirmButtonColor: "#3085d6",
+      timer: 2000,
+    });
+  };
+
+  // Function to handle "Buy Now" button click
+  const handleBuyNow = () => {
+    Swal.fire({
+      title: "Proceed to Checkout",
+      text: `Do you want to proceed to checkout for ${item.productName}?`,
+      icon: "info",
+      showCancelButton: true,
+      confirmButtonText: "Proceed",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Handle the checkout process here
+        Swal.fire({
+          title: "Checkout",
+          text: "Redirecting to the checkout page...",
+          icon: "success",
+          confirmButtonText: "OK",
+          confirmButtonColor: "#3085d6",
+          timer: 2000,
+        });
+      }
+    });
   };
 
   return (
-    <div className="bg-white w-full shadow-md rounded-lg overflow-hidden">
+    <div className="bg-white relative !z-0 pb-7 w-full shadow-md rounded-lg overflow-hidden">
       {/* Product Image */}
       <div className="h-[160px] border-b flex justify-center items-center">
         <img
-          src={product.productImage}
-          alt={product.productName}
-          className=" h-full object-cover" // Reduced height
+          src={item.productImage}
+          alt={item.productName}
+          className="h-full object-cover" // Reduced height
         />
       </div>
 
       <div className="p-2">
         {/* Product Name */}
-        <h2 className="text-[16px] font-semibold mb-1">
-          {product.productName}
-        </h2>
+        <h2 className="text-[16px] font-semibold mb-1">{item.productName}</h2>
 
         {/* Description */}
-        <p className="text-gray-700 text-[12px] mb-2">{product.description}</p>
+        <p className="text-gray-700 text-[12px] mb-2">{item.description}</p>
 
         <div className="w-full flex justify-between flex-wrap items-center">
           {/* Category */}
           <p className="text-gray-600 text-[12px] mb-1">
-            <strong>Category:</strong> {product.category}
+            <strong>Category:</strong> {item.category}
           </p>
 
           {/* Brand Name */}
-          <p className="text-gray-600 text-[12px] ">
-            <strong>Brand:</strong> {product.brandName}
+          <p className="text-gray-600 text-[12px]">
+            <strong>Brand:</strong> {item.brand}
           </p>
         </div>
 
         <div className="w-full flex flex-wrap justify-between items-center">
-          {/* Category */}
+          {/* Price */}
           <p className="text-gray-600 text-[12px] mb-1">
-            <strong>Price:</strong> ${product.price}
+            <strong>Price:</strong> ${item.price}
           </p>
 
-          {/* Rating Name */}
-          <div className="flex justify-center gap-2 items-center ">
-            <strong className="text-[12px]">Rating:</strong> {/* Ratings */}
+          {/* Rating */}
+          <div className="flex justify-center gap-2 items-center">
+            <strong className="text-[12px]">Rating:</strong>
             <div className="flex items-center mb-1">
-              {[...Array(product.ratings)].map((_, i) => (
+              {[...Array(Math.floor(item.ratings))].map((_, i) => (
                 <span key={i} className="text-yellow-500 text-[12px]">
                   ★
                 </span>
               ))}
-              {[...Array(5 - product.ratings)].map((_, i) => (
+              {[...Array(5 - Math.floor(item.ratings))].map((_, i) => (
                 <span key={i} className="text-gray-400 text-[12px]">
                   ★
                 </span>
@@ -71,18 +95,24 @@ export default function ProductCard() {
 
         {/* Creation Date */}
         <p className="text-gray-500 text-xs">
-          Created on: {new Date(product.creationDate).toLocaleString()}
+          Created on: {new Date(item.productCreationDateTime).toLocaleString()}
         </p>
 
         {/* Buttons */}
-        {/* <div className="flex gap-2">
-          <button className="bg-blue-500 text-white text-[12px] px-3 py-1 rounded-lg hover:bg-blue-600 transition">
+        <div className="w-[calc(100%-16px)] grid grid-cols-2 items-end gap-2 absolute bottom-2">
+          <button
+            className="bg-blue-500 text-white text-[12px] px-3 py-1 rounded-lg hover:bg-blue-600 transition"
+            onClick={handleAddToCart}
+          >
             Add to Cart
           </button>
-          <button className="bg-green-500 text-white text-[12px] px-3 py-1 rounded-lg hover:bg-green-600 transition">
+          <button
+            className="bg-green-500 text-white text-[12px] px-3 py-1 rounded-lg hover:bg-green-600 transition"
+            onClick={handleBuyNow}
+          >
             Buy Now
           </button>
-        </div> */}
+        </div>
       </div>
     </div>
   );

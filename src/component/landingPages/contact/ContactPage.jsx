@@ -137,6 +137,7 @@ export default function ContactPage() {
             <h2 className="text-2xl font-bold text-red-600 mb-4">
               Contact Details
             </h2>
+            <hr />
 
             <p className="text-lg mb-2">
               <strong className="font-bold">Address:</strong> 123 Main Street,

@@ -45,14 +45,18 @@ export default function Navbar() {
             </Link>
           </div>
           <div className="flex items-center space-x-4">
-            <FaSearch className="text-2xl cursor-pointer md:hidden" />
+            <Link to="/products">
+              <FaSearch className="text-2xl cursor-pointer md:hidden" />
+            </Link>
             <div className="relative hidden md:block">
-              <input
-                type="text"
-                placeholder="Search..."
-                className="rounded-full px-4 py-2 text-black focus:outline-none"
-              />
-              <FaSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-red-600" />
+              <Link to="/products">
+                <button className="rounded-full text-left w-[150px] px-4 py-2 bg-white text-black ">
+                  Search...
+                </button>
+              </Link>
+              <Link to="/products">
+                <FaSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-red-600" />
+              </Link>
             </div>
             <Link
               to="/login"
