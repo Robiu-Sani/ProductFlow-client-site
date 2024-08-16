@@ -22,7 +22,7 @@ export default function Error() {
       >
         Back to Home
       </Link>
-      <div className="mt-8">
+      <div className="mt-8 flex gap-5">
         <p className="text-gray-700">Need help?</p>
         <Link to="/contact" className="text-red-600 underline">
           Contact Support
