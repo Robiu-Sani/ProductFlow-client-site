@@ -7,3 +7,13 @@
   font-family: "Oswald", sans-serif;
   transition: 0.5s;
 }
+
+.responsive {
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+
+@media only screen and (max-width: 640px) {
+  .responsive {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+}

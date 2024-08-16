@@ -5,6 +5,8 @@ import Home from "../landingPages/home/Home";
 import Products from "../landingPages/Products/Products";
 import About from "../landingPages/about/About";
 import Contact from "../landingPages/contact/Contact";
+import Login from "../landingPages/Authcation/Login";
+import Signup from "../landingPages/Authcation/Signup";
 
 export const router = createBrowserRouter([
   {
@@ -29,5 +31,13 @@ export const router = createBrowserRouter([
         element: <Contact></Contact>,
       },
     ],
+  },
+  {
+    path: "/login",
+    element: <Login></Login>,
+  },
+  {
+    path: "/signup",
+    element: <Signup></Signup>,
   },
 ]);

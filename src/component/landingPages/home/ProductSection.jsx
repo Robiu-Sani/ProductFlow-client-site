@@ -6,7 +6,7 @@ export default function ProductSection() {
     <section className="relative z-10 max-w-6xl mx-auto px-4 py-10">
       {/* Section Name and Title */}
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold mb-4">Our Products</h1>
+        <h1 className="text-4xl text-red-900 font-bold mb-4">Our Products</h1>
         <p className="text-lg text-gray-600">
           Explore our wide range of products
         </p>

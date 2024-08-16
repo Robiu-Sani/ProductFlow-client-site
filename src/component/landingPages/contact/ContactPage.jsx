@@ -1,4 +1,18 @@
+import { useForm } from "react-hook-form";
+
 export default function ContactPage() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  // Handle form submission
+  const onSubmit = (data) => {
+    console.log(data);
+    // Here you would typically send the form data to your server
+  };
+
   return (
     <section className="w-full py-10 bg-red-50">
       <div className="container mx-auto px-4">
@@ -6,7 +20,7 @@ export default function ContactPage() {
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-red-600 mb-4">Message Us</h1>
           <p className="text-lg text-gray-700">
-            We'd love to hear from you! Please reach out with any questions or
+            We`d love to hear from you! Please reach out with any questions or
             feedback.
           </p>
         </div>
@@ -15,10 +29,15 @@ export default function ContactPage() {
         <div className="flex flex-col lg:flex-row gap-10">
           {/* Form */}
           <div className="lg:w-2/3">
-            <form className="bg-white p-8 rounded-lg shadow-lg">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="bg-white p-8 rounded-lg shadow-lg"
+            >
               <h2 className="text-2xl font-bold text-red-600 mb-4">
                 Get in Touch
               </h2>
+
+              {/* Name Field */}
               <div className="mb-4">
                 <label
                   htmlFor="name"
@@ -29,11 +48,15 @@ export default function ContactPage() {
                 <input
                   type="text"
                   id="name"
-                  name="name"
+                  {...register("name", { required: "Name is required" })}
                   className="w-full border border-gray-300 p-2 rounded-lg"
-                  required
                 />
+                {errors.name && (
+                  <p className="text-red-500 text-sm">{errors.name.message}</p>
+                )}
               </div>
+
+              {/* Email Field */}
               <div className="mb-4">
                 <label
                   htmlFor="email"
@@ -44,11 +67,21 @@ export default function ContactPage() {
                 <input
                   type="email"
                   id="email"
-                  name="email"
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^\S+@\S+$/i,
+                      message: "Email is not valid",
+                    },
+                  })}
                   className="w-full border border-gray-300 p-2 rounded-lg"
-                  required
                 />
+                {errors.email && (
+                  <p className="text-red-500 text-sm">{errors.email.message}</p>
+                )}
               </div>
+
+              {/* Subject Field */}
               <div className="mb-4">
                 <label
                   htmlFor="subject"
@@ -59,11 +92,17 @@ export default function ContactPage() {
                 <input
                   type="text"
                   id="subject"
-                  name="subject"
+                  {...register("subject", { required: "Subject is required" })}
                   className="w-full border border-gray-300 p-2 rounded-lg"
-                  required
                 />
+                {errors.subject && (
+                  <p className="text-red-500 text-sm">
+                    {errors.subject.message}
+                  </p>
+                )}
               </div>
+
+              {/* Message Field */}
               <div className="mb-4">
                 <label
                   htmlFor="message"
@@ -73,12 +112,17 @@ export default function ContactPage() {
                 </label>
                 <textarea
                   id="message"
-                  name="message"
+                  {...register("message", { required: "Message is required" })}
                   rows="4"
                   className="w-full border border-gray-300 p-2 rounded-lg"
-                  required
                 ></textarea>
+                {errors.message && (
+                  <p className="text-red-500 text-sm">
+                    {errors.message.message}
+                  </p>
+                )}
               </div>
+
               <button
                 type="submit"
                 className="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition duration-300 ease-in-out shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-400"
@@ -93,16 +137,65 @@ export default function ContactPage() {
             <h2 className="text-2xl font-bold text-red-600 mb-4">
               Contact Details
             </h2>
+
             <p className="text-lg mb-2">
               <strong className="font-bold">Address:</strong> 123 Main Street,
               City, Country
             </p>
+
             <p className="text-lg mb-2">
               <strong className="font-bold">Phone:</strong> (123) 456-7890
             </p>
+
             <p className="text-lg mb-2">
               <strong className="font-bold">Email:</strong>{" "}
               contact@yourwebsite.com
+            </p>
+
+            <p className="text-lg mb-2">
+              <strong className="font-bold">Office Hours:</strong> Mon-Fri, 9 AM
+              - 5 PM
+            </p>
+
+            <p className="text-lg mb-2">
+              <strong className="font-bold">Social Media:</strong>
+              <a
+                href="https://facebook.com/yourprofile"
+                className="text-red-500 hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Facebook
+              </a>
+              ,
+              <a
+                href="https://twitter.com/yourprofile"
+                className="text-red-500 hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Twitter
+              </a>
+              ,
+              <a
+                href="https://linkedin.com/in/yourprofile"
+                className="text-red-500 hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                LinkedIn
+              </a>
+            </p>
+
+            <p className="text-lg mb-2">
+              <strong className="font-bold">Support:</strong> For support, email
+              us at{" "}
+              <a
+                href="mailto:support@yourwebsite.com"
+                className="text-red-500 hover:underline"
+              >
+                support@yourwebsite.com
+              </a>
             </p>
           </div>
         </div>

@@ -33,7 +33,7 @@ export default function ProductCard() {
         {/* Description */}
         <p className="text-gray-700 text-[12px] mb-2">{product.description}</p>
 
-        <div className="w-full flex justify-between items-center">
+        <div className="w-full flex justify-between flex-wrap items-center">
           {/* Category */}
           <p className="text-gray-600 text-[12px] mb-1">
             <strong>Category:</strong> {product.category}
@@ -45,7 +45,7 @@ export default function ProductCard() {
           </p>
         </div>
 
-        <div className="w-full flex justify-between items-center">
+        <div className="w-full flex flex-wrap justify-between items-center">
           {/* Category */}
           <p className="text-gray-600 text-[12px] mb-1">
             <strong>Price:</strong> ${product.price}

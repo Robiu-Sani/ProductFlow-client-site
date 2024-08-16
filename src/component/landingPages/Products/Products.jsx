@@ -1,5 +1,6 @@
 import banner from "../../../images/banner.jpg";
 import ProductCard from "../../shaireComponent/ProductCard";
+import FilterComponent from "./FilterComponent";
 
 export default function Products() {
   return (
@@ -18,14 +19,12 @@ export default function Products() {
         </div>
       </div>
 
+      {/* =========  */}
+      <FilterComponent></FilterComponent>
+
       <div className="w-full bg-[#9720206c]">
         {/* Product Cards */}
-        <div
-          className="grid container mx-auto py-10 px-2 gap-6"
-          style={{
-            gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))",
-          }}
-        >
+        <div className="grid responsive container mx-auto py-10 px-2 gap-3">
           <ProductCard />
           <ProductCard />
           <ProductCard />
