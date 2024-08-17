@@ -22,7 +22,8 @@ export default function Products() {
       .then((response) => setProductCount(response.data.count))
       .catch((err) => console.error(err));
     refetch(); // Refetch products whenever the page changes
-  }, [axiosSource, getCurrentPage]);
+    setShowProducts(PasitionProducts);
+  }, [axiosSource, getCurrentPage, PasitionProducts]);
 
   const SaperateFunction = (data) => {
     setShowProducts(data);
@@ -55,8 +56,14 @@ export default function Products() {
             SaperateFunction={SaperateFunction}
             getCurrentPage={getCurrentPage}
           />
-          <DropdownsComponents />
-          <Reset />
+          <DropdownsComponents
+            SaperateFunction={SaperateFunction}
+            showProducts={PasitionProducts}
+          />
+          <Reset
+            SaperateFunction={SaperateFunction}
+            showProducts={PasitionProducts}
+          />
         </div>
       </div>
 

@@ -2,7 +2,10 @@ import { useState } from "react";
 import useProducts from "../../customComponent/useProducts";
 import { IoIosArrowDown } from "react-icons/io";
 
-export default function DropdownsComponents() {
+export default function DropdownsComponents({
+  SaperateFunction,
+  showProducts,
+}) {
   const [brandDropdownOpen, setBrandDropdownOpen] = useState(false);
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
   const [brandSearch, setBrandSearch] = useState("");
@@ -29,13 +32,13 @@ export default function DropdownsComponents() {
 
   const handleBrandSelect = (brand) => {
     setSelectedBrand(brand);
-    console.log("Selected Brand:", brand);
+    SaperateFunction(showProducts.filter((item) => item.brand === brand));
     setBrandDropdownOpen(false);
   };
 
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
-    console.log("Selected Category:", category);
+    SaperateFunction(showProducts.filter((item) => item.category === category));
     setCategoryDropdownOpen(false);
   };
 
