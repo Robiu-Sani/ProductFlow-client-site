@@ -4,17 +4,44 @@ import {
   FaSortAmountDownAlt,
   FaSortAmountUpAlt,
 } from "react-icons/fa";
+import useAxiosSource from "../../customComponent/useAxiosSorce";
 
-export default function FiltersComponents() {
+export default function FiltersComponents({
+  SaperateFunction,
+  getCurrentPage,
+}) {
   const [priceOrder, setPriceOrder] = useState("lowToHigh");
   const [dateOrder, setDateOrder] = useState("newest");
+  const { axiosSource } = useAxiosSource();
 
   const togglePriceOrder = () => {
-    setPriceOrder((prev) => (prev === "lowToHigh" ? "highToLow" : "lowToHigh"));
+    const newOrder = priceOrder === "lowToHigh" ? "highToLow" : "lowToHigh";
+    setPriceOrder(newOrder);
+
+    const endpoint =
+      newOrder === "lowToHigh"
+        ? "/pasitionProductsByFromLowPrice"
+        : "/pasitionProductsByFromHighPrice";
+
+    axiosSource
+      .get(`${endpoint}?page=${getCurrentPage}&size=${10}`)
+      .then((response) => SaperateFunction(response.data))
+      .catch((err) => console.error("Error fetching products:", err));
   };
 
   const toggleDateOrder = () => {
-    setDateOrder((prev) => (prev === "newest" ? "oldest" : "newest"));
+    const newDateOrder = dateOrder === "newest" ? "oldest" : "newest";
+    setDateOrder(newDateOrder);
+
+    const endpoint =
+      newDateOrder === "newest"
+        ? "/pasitionProductsbynewtoOld"
+        : "/pasitionProductsbyoldToNew";
+
+    axiosSource
+      .get(`${endpoint}?page=${getCurrentPage}&size=${10}`)
+      .then((response) => SaperateFunction(response.data))
+      .catch((err) => console.error("Error fetching products:", err));
   };
 
   return (

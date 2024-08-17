@@ -19,7 +19,7 @@ export default function ProductSection() {
         className="grid gap-6 mb-8"
         style={{ gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))" }}
       >
-        {products.slice(0, 3).map((item, idx) => (
+        {products.slice(0, 8).map((item, idx) => (
           <ProductCard item={item} key={idx} />
         ))}
       </div>

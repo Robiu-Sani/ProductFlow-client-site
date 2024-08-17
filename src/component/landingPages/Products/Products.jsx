@@ -1,14 +1,36 @@
-// import { IoIosRefresh } from "react-icons/io";
+import { useEffect, useState } from "react";
 import banner from "../../../images/banner.jpg";
-import useProducts from "../../customComponent/useProducts";
+import usePasitionProducts from "../../customComponent/usePasitionProducts";
 import ProductCard from "../../shaireComponent/ProductCard";
 import DropdownsComponents from "./DropdownsComponents";
 import FiltersComponents from "./FiltersComponents";
 import Reset from "./Reset";
 import SearchComponent from "./SearchComponent";
+import useAxiosSource from "../../customComponent/useAxiosSorce";
 
 export default function Products() {
-  const { products } = useProducts();
+  const { axiosSource } = useAxiosSource();
+  const [getCurrentPage, setGetCurrentPage] = useState(0);
+  const itemOfPAges = 10;
+  const [productCount, setProductCount] = useState(0);
+  const { PasitionProducts, refetch } = usePasitionProducts({ getCurrentPage });
+  const [showProducts, setShowProducts] = useState([]);
+
+  useEffect(() => {
+    axiosSource
+      .get("/productslength") // Assuming you have an endpoint to get the total product count
+      .then((response) => setProductCount(response.data.count))
+      .catch((err) => console.error(err));
+    refetch(); // Refetch products whenever the page changes
+  }, [axiosSource, getCurrentPage]);
+
+  const SaperateFunction = (data) => {
+    setShowProducts(data);
+  };
+
+  const numberOfPages = Math.ceil(productCount / itemOfPAges);
+  const pages = [...Array(numberOfPages).keys()];
+
   return (
     <div className="w-full">
       <div
@@ -25,22 +47,65 @@ export default function Products() {
         </div>
       </div>
 
-      {/* =========  */}
+      {/* Filters and Controls */}
       <div className="w-full py-6 px-3 bg-red-50">
         <div className="flex flex-col md:flex-row items-center justify-center gap-3 container mx-auto">
-          <SearchComponent></SearchComponent>
-          <FiltersComponents></FiltersComponents>
-          <DropdownsComponents></DropdownsComponents>
-          <Reset></Reset>
+          <SearchComponent />
+          <FiltersComponents
+            SaperateFunction={SaperateFunction}
+            getCurrentPage={getCurrentPage}
+          />
+          <DropdownsComponents />
+          <Reset />
         </div>
       </div>
 
+      {/* Product Cards */}
       <div className="w-full bg-[#9720206c]">
-        {/* Product Cards */}
         <div className="grid responsive z-0 container mx-auto py-10 px-2 gap-3">
-          {products.map((item, idx) => (
+          {showProducts.map((item, idx) => (
             <ProductCard item={item} key={idx} />
           ))}
+          {/* Placeholder divs to maintain grid layout */}
+          <div className="w-full"></div>
+          <div className="w-full"></div>
+          <div className="w-full"></div>
+          <div className="w-full"></div>
+        </div>
+      </div>
+
+      {/* Pagination Controls */}
+      <div className="w-full py-6 px-3 bg-red-50">
+        <div className="w-full flex justify-center items-center">
+          <div className="join">
+            <button
+              onClick={() => setGetCurrentPage((prev) => Math.max(prev - 1, 0))}
+              className="join-item btn flex justify-center items-center"
+            >
+              « <span className="text-[11px]">Previous</span>
+            </button>
+            {pages.map((page) => (
+              <button
+                key={page}
+                className={`join-item btn ${
+                  getCurrentPage === page ? "bg-blue-500" : ""
+                }`}
+                onClick={() => setGetCurrentPage(page)}
+              >
+                {page + 1}
+              </button>
+            ))}
+            <button
+              onClick={() =>
+                setGetCurrentPage((prev) =>
+                  Math.min(prev + 1, numberOfPages - 1)
+                )
+              }
+              className="join-item btn flex justify-center items-center"
+            >
+              <span className="text-[11px]">Next</span> »
+            </button>
+          </div>
         </div>
       </div>
     </div>
