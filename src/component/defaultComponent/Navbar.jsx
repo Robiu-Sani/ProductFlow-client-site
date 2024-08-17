@@ -1,12 +1,21 @@
 import { FaSearch, FaUser, FaBars, FaTimes } from "react-icons/fa";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import profile from "../../images/profule.png";
+import Logout from "../landingPages/Authcation/Logout";
+import { AuthContext } from "./Contaxt";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const { loggedUser } = useContext(AuthContext);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const toggleProfileMenu = () => {
+    setIsProfileMenuOpen(!isProfileMenuOpen);
   };
 
   return (
@@ -58,13 +67,39 @@ export default function Navbar() {
                 <FaSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-red-600" />
               </Link>
             </div>
-            <Link
-              to="/login"
-              className="hidden md:flex bg-white text-red-600 hover:bg-gray-200 px-4 py-2 rounded-full font-semibold items-center space-x-2"
-            >
-              <FaUser />
-              <span>Login</span>
-            </Link>
+            {loggedUser ? (
+              <div className="relative">
+                <img
+                  src={loggedUser.photoURL || profile}
+                  className="w-[40px] h-[40px] cursor-pointer rounded-full"
+                  alt="Profile"
+                  onClick={toggleProfileMenu}
+                />
+                {isProfileMenuOpen && (
+                  <div className="absolute right-0 mt-2 bg-white text-black rounded-lg shadow-lg w-48">
+                    <div className="p-2">
+                      <p className="font-medium">
+                        {loggedUser.displayName || "User"}
+                      </p>
+                      <button className="bg-red-500 mt-5 mb-2 text-white px-4 w-full py-2 rounded-lg hover:bg-red-600 transition">
+                        <Link to="/edit-profile">Edit Profile</Link>
+                      </button>
+
+                      <Logout />
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                to="/login"
+                className="hidden md:flex bg-white text-red-600 hover:bg-gray-200 px-4 py-2 rounded-full font-semibold items-center space-x-2"
+              >
+                <FaUser />
+                <span>Login</span>
+              </Link>
+            )}
+
             <button
               className="text-white focus:outline-none md:hidden"
               onClick={toggleMenu}

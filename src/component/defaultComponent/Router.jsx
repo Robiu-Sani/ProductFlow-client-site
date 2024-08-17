@@ -7,6 +7,8 @@ import About from "../landingPages/about/About";
 import Contact from "../landingPages/contact/Contact";
 import Login from "../landingPages/Authcation/Login";
 import Signup from "../landingPages/Authcation/Signup";
+import EditProfile from "../landingPages/Authcation/EditProfile";
+import Private from "./Private";
 
 export const router = createBrowserRouter([
   {
@@ -20,7 +22,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/products",
-        element: <Products></Products>,
+        element: (
+          <Private>
+            <Products></Products>
+          </Private>
+        ),
       },
       {
         path: "/about",
@@ -39,5 +45,13 @@ export const router = createBrowserRouter([
   {
     path: "/signup",
     element: <Signup></Signup>,
+  },
+  {
+    path: "/edit-profile",
+    element: (
+      <Private>
+        <EditProfile></EditProfile>
+      </Private>
+    ),
   },
 ]);

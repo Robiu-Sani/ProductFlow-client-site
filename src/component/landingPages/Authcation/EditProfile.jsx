@@ -1,13 +1,12 @@
 import { useForm } from "react-hook-form";
 import banner from "../../../images/banner.jpg";
 import { useNavigate } from "react-router-dom";
-import GoogleAuth from "./GoogleAuth";
-import { useContext } from "react";
 import Swal from "sweetalert2";
+import { useContext } from "react";
 import { AuthContext } from "../../defaultComponent/Contaxt";
 
-export default function Login() {
-  const { loginUserByEmail } = useContext(AuthContext);
+export default function EditProfile() {
+  const { updateUserProfile } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -17,29 +16,29 @@ export default function Login() {
 
   // Handle form submission
   const onSubmit = async (data) => {
-    const { email, password } = data;
+    const { displayName, photoURL } = data;
     try {
-      await loginUserByEmail(email, password);
+      await updateUserProfile(displayName, photoURL);
       Swal.fire({
         icon: "success",
-        title: "Login Successful!",
-        text: "You have successfully logged in.",
+        title: "Profile Updated!",
+        text: "Your profile has been successfully updated.",
         showConfirmButton: false,
         timer: 2000,
       });
-      navigate("/");
+      navigate("/"); // Navigate to home page or any other page after successful update
     } catch (error) {
       Swal.fire({
         icon: "error",
-        title: "Login Failed",
-        text: error.message || "An error occurred during login.",
+        title: "Update Failed",
+        text: error.message || "An error occurred during profile update.",
       });
     }
   };
 
-  // Navigate back to the home page
-  const goHome = () => {
-    navigate("/"); // Adjust the path as needed
+  // Navigate back to the previous page
+  const goBack = () => {
+    navigate(-1); // Go back to the previous page
   };
 
   return (
@@ -56,79 +55,65 @@ export default function Login() {
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <button
-            onClick={goHome}
+            onClick={goBack}
             className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
           >
-            Back to Home
+            Back
           </button>
           <h2 className="text-2xl font-bold text-center text-gray-800">
-            Login
+            Edit Profile
           </h2>
         </div>
 
-        {/* Login Form */}
+        {/* Edit Profile Form */}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* Email Field */}
+          {/* Display Name Field */}
           <div>
             <label
-              htmlFor="email"
+              htmlFor="displayName"
               className="block text-sm font-medium text-gray-700 mb-1"
             >
-              Email
+              Display Name
             </label>
             <input
-              type="email"
-              id="email"
-              {...register("email", { required: "Email is required" })}
+              type="text"
+              id="displayName"
+              {...register("displayName", {
+                required: "Display Name is required",
+              })}
               className="w-full border border-gray-300 p-2 rounded-lg"
             />
-            {errors.email && (
-              <p className="text-red-500 text-sm">{errors.email.message}</p>
+            {errors.displayName && (
+              <p className="text-red-500 text-sm">
+                {errors.displayName.message}
+              </p>
             )}
           </div>
 
-          {/* Password Field */}
+          {/* Photo URL Field */}
           <div>
             <label
-              htmlFor="password"
+              htmlFor="photoURL"
               className="block text-sm font-medium text-gray-700 mb-1"
             >
-              Password
+              Photo URL
             </label>
             <input
-              type="password"
-              id="password"
-              {...register("password", { required: "Password is required" })}
+              type="text"
+              id="photoURL"
+              {...register("photoURL")}
               className="w-full border border-gray-300 p-2 rounded-lg"
             />
-            {errors.password && (
-              <p className="text-red-500 text-sm">{errors.password.message}</p>
-            )}
           </div>
 
-          {/* Login Button */}
+          {/* Update Button */}
           <button
             type="submit"
             className="w-full bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
           >
-            Login
+            Update Profile
           </button>
         </form>
-
-        <div className="divider">OR</div>
-
-        {/* Google Login Button */}
-        <GoogleAuth />
-
-        {/* Signup Link */}
-        <div className="text-center mt-4">
-          <p className="text-gray-700">
-            Don’t have an account?{" "}
-            <a href="/signup" className="text-red-500 hover:underline">
-              Sign Up
-            </a>
-          </p>
-        </div>
       </div>
     </section>
   );
