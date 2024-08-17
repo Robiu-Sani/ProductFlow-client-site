@@ -51,7 +51,7 @@ export default function Products() {
       {/* Filters and Controls */}
       <div className="w-full py-6 px-3 bg-red-50">
         <div className="flex flex-col md:flex-row items-center justify-center gap-3 container mx-auto">
-          <SearchComponent />
+          <SearchComponent SaperateFunction={SaperateFunction} />
           <FiltersComponents
             SaperateFunction={SaperateFunction}
             getCurrentPage={getCurrentPage}
