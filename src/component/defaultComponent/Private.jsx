@@ -1,10 +1,11 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { AuthContext } from "./Contaxt";
 
 export default function Private({ children }) {
-  const { loggedUser, loading } = useContext(AuthContext);
+  const { loggedUser, loader } = useContext(AuthContext);
   const location = useLocation();
+  const [isUserChecked, setIsUserChecked] = useState(false);
 
   // Inline style for the loader
   const loaderStyle = {
@@ -34,18 +35,30 @@ export default function Private({ children }) {
     }
   `;
 
-  return (
-    <>
-      <style>{keyframes}</style>
-      {loading ? (
+  // This effect checks if the user is logged in after loader is complete
+  useEffect(() => {
+    if (!loader) {
+      setIsUserChecked(true);
+    }
+  }, [loader]);
+
+  // If still loader, show a loader
+  if (loader || !isUserChecked) {
+    return (
+      <>
+        <style>{keyframes}</style>
         <div style={containerStyle}>
           <div style={loaderStyle}></div>
         </div>
-      ) : loggedUser ? (
-        children
-      ) : (
-        <Navigate state={{ from: location.pathname }} to="/login" replace />
-      )}
-    </>
-  );
+      </>
+    );
+  }
+
+  // If user is checked and not logged in, redirect to login page
+  if (isUserChecked && !loggedUser) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  // Otherwise, render the children components
+  return children;
 }
