@@ -24,19 +24,19 @@ To get started with ProductFlow, follow these steps:
 1. **Clone the Repository**
 
     ```bash
-    git clone https://github.com/your-username/productflow.git
+    git clone https://github.com/Robiu-Sani/ProductFlow-client-site
     ```
 
 2. **Navigate to the Project Directory**
 
     ```bash
-    cd productflow
+    cd ProductFlow-client-site
     ```
 
 3. **Install Dependencies**
 
     ```bash
-    npm install
+    npm run dev
     ```
 
 4. **Set Up Environment Variables**
@@ -55,12 +55,12 @@ To get started with ProductFlow, follow these steps:
 5. **Start the Development Server**
 
     ```bash
-    npm start
+    npm run build
     ```
 
 6. **Visit the Application**
 
-    Open your browser and go to `http://localhost:3000` to view the application.
+    Open your browser and go to `http://localhost:5173` to view the application.
 
 ## Usage
 
@@ -73,32 +73,6 @@ To get started with ProductFlow, follow these steps:
 
 We welcome contributions to ProductFlow! If you have suggestions, bug fixes, or improvements, please follow these steps:
 
-1. **Fork the Repository**
-
-2. **Create a New Branch**
-
-    ```bash
-    git checkout -b feature/your-feature
-    ```
-
-3. **Make Your Changes**
-
-4. **Commit Your Changes**
-
-    ```bash
-    git add .
-    git commit -m "Add your message here"
-    ```
-
-5. **Push to Your Branch**
-
-    ```bash
-    git push origin feature/your-feature
-    ```
-
-6. **Create a Pull Request**
-
-    Open a pull request from your forked repository to the main repository.
 
 ## License
 
@@ -108,9 +82,10 @@ ProductFlow is licensed under the [MIT License](LICENSE).
 
 For any inquiries or support, please contact:
 
-- **Email**: your-email@example.com
-- **GitHub**: [your-username](https://github.com/your-username)
-- **Twitter**: [@your-twitter-handle](https://twitter.com/your-twitter-handle)
+- **Email**: robiussani@gmail.com
+- **GitHub**: [Robiu-Sani](https://github.com/Robiu-Sani)
+- **Twitter**: [@RobiusS4690](https://x.com/RobiusS4690)
+- **Linkedin**: [Robius Sani](https://www.linkedin.com/in/robius-sani-mobarok/)
 
 ---
 
