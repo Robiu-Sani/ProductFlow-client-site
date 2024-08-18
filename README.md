@@ -2,11 +2,11 @@
 
 ProductFlow is an e-commerce application designed to streamline your online shopping experience. It provides an intuitive interface for browsing products, adding them to the cart, and proceeding to checkout. Built with React, Firebase, and Tailwind CSS, ProductFlow offers a modern and responsive design.
 
-![ProductFlow Banner](./path/to/your/banner-image.jpg)  <!-- Replace with your banner image path -->
+<p align="center"><img src="/productflow.png" /></p>  <!-- Replace with your banner image path -->
 
 ## Live Demo
 
-You can check out the live demo of ProductFlow here: [ProductFlow Live Demo](https://your-live-link.com)  <!-- Replace with your live link -->
+You can check out the live demo of ProductFlow here: [ProductFlow Live Demo](https://dynamic-lokum-79663f.netlify.app/)  <!-- Replace with your live link -->
 
 ## Features
 
