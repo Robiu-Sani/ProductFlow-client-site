@@ -12,8 +12,6 @@ export default function ProductCard({ item }) {
   // Function to handle "Add to Cart" button click
   const handleAddToCart = async () => {
     if (loggedUser) {
-      // const data = { ...item, email: loggedUser.email };
-
       const data = {
         productSign: item._id,
         email: loggedUser.email,
@@ -31,7 +29,6 @@ export default function ProductCard({ item }) {
         const response = await axiosSource.post("/AddCard", data);
 
         if (response.status === 201) {
-          // Check for correct status code (201 for created)
           Swal.fire({
             title: "Added to Cart",
             text: `${item.productName} added to cart successfully.`,
@@ -39,6 +36,20 @@ export default function ProductCard({ item }) {
             confirmButtonText: "OK",
             confirmButtonColor: "#3085d6",
             timer: 2000,
+          });
+        } else {
+          throw new Error("Unexpected response status.");
+        }
+      } catch (error) {
+        console.error("Error adding item to cart:", error);
+
+        if (error.response && error.response.status === 400) {
+          Swal.fire({
+            title: "Already in Cart",
+            text: "This product is already in your cart.",
+            icon: "warning",
+            confirmButtonText: "OK",
+            confirmButtonColor: "#f0ad4e",
           });
         } else {
           Swal.fire({
@@ -49,15 +60,6 @@ export default function ProductCard({ item }) {
             confirmButtonColor: "#d33",
           });
         }
-      } catch (error) {
-        console.error("Error adding item to cart:", error);
-        Swal.fire({
-          title: "Error",
-          text: "There was an issue adding the item to your cart. Please try again.",
-          icon: "error",
-          confirmButtonText: "OK",
-          confirmButtonColor: "#d33",
-        });
       }
     } else {
       navigate("/login");

@@ -6,10 +6,10 @@ import { AuthContext } from "../../defaultComponent/Contaxt";
 
 const ProductDetails = () => {
   const [item, setItem] = useState(null);
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const { axiosSource } = useAxiosSource();
-  const { loggedUser } = useContext(AuthContext); // Replace this with actual user context or state
+  const { loggedUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,10 +17,10 @@ const ProductDetails = () => {
       .get(`/ProductsDetails/${id}`)
       .then((res) => {
         setItem(res.data);
-        setLoading(false); // Set loading to false once data is fetched
+        setLoading(false);
       })
       .catch((err) => {
-        setLoading(false); // Set loading to false in case of an error
+        setLoading(false);
         Swal.fire({
           title: "Error",
           text: err.message,
@@ -31,7 +31,6 @@ const ProductDetails = () => {
       });
   }, [axiosSource, id]);
 
-  // Function to handle "Add to Cart" button click
   const handleAddToCart = async () => {
     if (loggedUser) {
       const data = {
@@ -50,14 +49,28 @@ const ProductDetails = () => {
       try {
         const response = await axiosSource.post("/AddCard", data);
 
-        if (response.status === 200) {
+        if (response.status === 201) {
           Swal.fire({
             title: "Added to Cart",
-            text: `${item.productName} has been added to your cart.`,
+            text: `${item.productName} added to cart successfully.`,
             icon: "success",
             confirmButtonText: "OK",
             confirmButtonColor: "#3085d6",
             timer: 2000,
+          });
+        } else {
+          throw new Error("Unexpected response status.");
+        }
+      } catch (error) {
+        console.error("Error adding item to cart:", error);
+
+        if (error.response && error.response.status === 400) {
+          Swal.fire({
+            title: "Already in Cart",
+            text: "This product is already in your cart.",
+            icon: "warning",
+            confirmButtonText: "OK",
+            confirmButtonColor: "#f0ad4e",
           });
         } else {
           Swal.fire({
@@ -68,31 +81,9 @@ const ProductDetails = () => {
             confirmButtonColor: "#d33",
           });
         }
-      } catch (error) {
-        console.error("Error adding item to cart:", error);
-        Swal.fire({
-          title: "Error",
-          text: "There was an issue adding the item to your cart. Please try again.",
-          icon: "error",
-          confirmButtonText: "OK",
-          confirmButtonColor: "#d33",
-        });
       }
     } else {
-      Swal.fire({
-        title: "Not Logged In",
-        text: "You need to log in to add items to your cart.",
-        icon: "warning",
-        confirmButtonText: "Login",
-        confirmButtonColor: "#3085d6",
-        showCancelButton: true,
-        cancelButtonText: "Cancel",
-        cancelButtonColor: "#d33",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          navigate("/login");
-        }
-      });
+      navigate("/login");
     }
   };
 
@@ -100,12 +91,12 @@ const ProductDetails = () => {
     navigate(`/checkout/${id}`);
   };
 
-  if (loading) {
+  if (loading || !item) {
     return (
       <div className="flex justify-center items-center h-screen">
         <span className="loading loading-spinner loading-lg"></span>
       </div>
-    ); // Show daisyUI loader while data is loading
+    );
   }
 
   return (
