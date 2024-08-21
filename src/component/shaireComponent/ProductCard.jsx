@@ -2,22 +2,63 @@ import { useContext } from "react";
 import Swal from "sweetalert2";
 import { AuthContext } from "../defaultComponent/Contaxt";
 import { useNavigate } from "react-router-dom";
+import useAxiosSource from "../customComponent/useAxiosSorce";
 
 export default function ProductCard({ item }) {
   const { loggedUser } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { axiosSource } = useAxiosSource();
 
   // Function to handle "Add to Cart" button click
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (loggedUser) {
-      Swal.fire({
-        title: "Added to Cart",
-        text: `${item.productName} has been added to your cart.`,
-        icon: "success",
-        confirmButtonText: "OK",
-        confirmButtonColor: "#3085d6",
-        timer: 2000,
-      });
+      // const data = { ...item, email: loggedUser.email };
+
+      const data = {
+        productSign: item._id,
+        email: loggedUser.email,
+        productName: item.productName,
+        productImage: item.productImage,
+        description: item.description,
+        price: item.price,
+        category: item.category,
+        brand: item.brand,
+        ratings: item.ratings,
+        productCreationDateTime: item.productCreationDateTime,
+      };
+
+      try {
+        const response = await axiosSource.post("/AddCard", data);
+
+        if (response.status === 201) {
+          // Check for correct status code (201 for created)
+          Swal.fire({
+            title: "Added to Cart",
+            text: `${item.productName} added to cart successfully.`,
+            icon: "success",
+            confirmButtonText: "OK",
+            confirmButtonColor: "#3085d6",
+            timer: 2000,
+          });
+        } else {
+          Swal.fire({
+            title: "Error",
+            text: "There was an issue adding the item to your cart. Please try again.",
+            icon: "error",
+            confirmButtonText: "OK",
+            confirmButtonColor: "#d33",
+          });
+        }
+      } catch (error) {
+        console.error("Error adding item to cart:", error);
+        Swal.fire({
+          title: "Error",
+          text: "There was an issue adding the item to your cart. Please try again.",
+          icon: "error",
+          confirmButtonText: "OK",
+          confirmButtonColor: "#d33",
+        });
+      }
     } else {
       navigate("/login");
     }
@@ -26,31 +67,7 @@ export default function ProductCard({ item }) {
   // Function to handle "Buy Now" button click
   const handleBuyNow = () => {
     if (loggedUser) {
-      Swal.fire({
-        title: "Proceed to Checkout",
-        text: `Do you want to proceed to checkout for ${item.productName}?`,
-        icon: "info",
-        showCancelButton: true,
-        confirmButtonText: "Proceed",
-        cancelButtonText: "Cancel",
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          // Handle the checkout process here
-          Swal.fire({
-            title: "Checkout",
-            text: "Redirecting to the checkout page...",
-            icon: "success",
-            confirmButtonText: "OK",
-            confirmButtonColor: "#3085d6",
-            timer: 2000,
-          }).then(() => {
-            // Redirect to checkout page
-            console.log("success");
-          });
-        }
-      });
+      navigate(`/productsDetails/${item._id}`);
     } else {
       navigate("/login");
     }
@@ -127,7 +144,7 @@ export default function ProductCard({ item }) {
             className="bg-green-500 text-white text-sm px-3 py-1 rounded-lg hover:bg-green-600 transition"
             onClick={handleBuyNow}
           >
-            Buy Now
+            See Details
           </button>
         </div>
       </div>

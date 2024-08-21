@@ -84,6 +84,9 @@ export default function Navbar() {
                       <button className="bg-red-500 mt-5 mb-2 text-white px-4 w-full py-2 rounded-lg hover:bg-red-600 transition">
                         <Link to="/edit-profile">Edit Profile</Link>
                       </button>
+                      <button className="bg-red-500 mb-2 text-white px-4 w-full py-2 rounded-lg hover:bg-red-600 transition">
+                        <Link to="/addCard">Added Cards</Link>
+                      </button>
 
                       <Logout />
                     </div>

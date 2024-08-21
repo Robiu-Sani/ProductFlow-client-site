@@ -5,7 +5,11 @@ export default function usePasitionProducts({ getCurrentPage }) {
   const { axiosSource } = useAxiosSource();
   const itemOfPAges = 10;
 
-  const { data: PasitionProducts = [], refetch } = useQuery({
+  const {
+    data: PasitionProducts = [],
+    refetch,
+    isLoading,
+  } = useQuery({
     queryKey: ["pasitionProducts", getCurrentPage],
     queryFn: async () => {
       const res = await axiosSource.get(
@@ -16,5 +20,5 @@ export default function usePasitionProducts({ getCurrentPage }) {
     keepPreviousData: true, // Optional: To keep the previous data while fetching new data
   });
 
-  return { PasitionProducts, refetch };
+  return { PasitionProducts, refetch, isLoading };
 }

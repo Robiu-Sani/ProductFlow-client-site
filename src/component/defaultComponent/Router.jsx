@@ -9,6 +9,9 @@ import Login from "../landingPages/Authcation/Login";
 import Signup from "../landingPages/Authcation/Signup";
 import EditProfile from "../landingPages/Authcation/EditProfile";
 import Private from "./Private";
+import ProductDetails from "../landingPages/ManagesComponent/ProductDetails";
+import AllAddToCards from "../landingPages/ManagesComponent/AllAddToCards";
+import Checkout from "../shaireComponent/Checkout";
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +28,30 @@ export const router = createBrowserRouter([
         element: (
           <Private>
             <Products></Products>
+          </Private>
+        ),
+      },
+      {
+        path: "/addCard",
+        element: (
+          <Private>
+            <AllAddToCards></AllAddToCards>
+          </Private>
+        ),
+      },
+      {
+        path: "/checkout/:id",
+        element: (
+          <Private>
+            <Checkout></Checkout>
+          </Private>
+        ),
+      },
+      {
+        path: "/productsDetails/:id",
+        element: (
+          <Private>
+            <ProductDetails></ProductDetails>
           </Private>
         ),
       },

@@ -1,8 +1,10 @@
 import ProductCard from "../../shaireComponent/ProductCard";
 import useProducts from "../../customComponent/useProducts";
+import { useNavigate } from "react-router-dom";
 
 export default function ProductSection() {
   const { products, refetch } = useProducts(); // Using the custom hook to get products
+  const navigate = useNavigate();
 
   return (
     <section className="relative z-10 max-w-6xl mx-auto px-4 py-10">
@@ -27,7 +29,10 @@ export default function ProductSection() {
       {/* See All Products Button */}
       <div className="text-center">
         <button
-          onClick={refetch}
+          onClick={() => {
+            navigate("/products");
+            refetch();
+          }}
           className="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition duration-300 ease-in-out transform hover:scale-105 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-400"
         >
           See All Products

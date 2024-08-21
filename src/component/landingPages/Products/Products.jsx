@@ -13,15 +13,17 @@ export default function Products() {
   const [getCurrentPage, setGetCurrentPage] = useState(0);
   const itemOfPAges = 10;
   const [productCount, setProductCount] = useState(0);
-  const { PasitionProducts, refetch } = usePasitionProducts({ getCurrentPage });
+  const { PasitionProducts, refetch, isLoading } = usePasitionProducts({
+    getCurrentPage,
+  });
   const [showProducts, setShowProducts] = useState([]);
 
   useEffect(() => {
     axiosSource
-      .get("/productslength") // Assuming you have an endpoint to get the total product count
+      .get("/productslength")
       .then((response) => setProductCount(response.data.count))
       .catch((err) => console.error(err));
-    refetch(); // Refetch products whenever the page changes
+    refetch();
     setShowProducts(PasitionProducts);
   }, [axiosSource, getCurrentPage, PasitionProducts]);
 
@@ -69,16 +71,22 @@ export default function Products() {
 
       {/* Product Cards */}
       <div className="w-full bg-[#9720206c]">
-        <div className="grid responsive z-0 container mx-auto py-10 px-2 gap-3">
-          {showProducts.map((item, idx) => (
-            <ProductCard item={item} key={idx} />
-          ))}
-          {/* Placeholder divs to maintain grid layout */}
-          <div className="w-full"></div>
-          <div className="w-full"></div>
-          <div className="w-full"></div>
-          <div className="w-full"></div>
-        </div>
+        {isLoading ? (
+          <div className="w-full h-[500px] flex justify-center items-center">
+            <span className="loading loading-spinner loading-lg"></span>
+          </div>
+        ) : (
+          <div className="grid responsive z-0 container mx-auto py-10 px-2 gap-3">
+            {showProducts.map((item, idx) => (
+              <ProductCard item={item} key={idx} />
+            ))}
+            {/* Placeholder divs to maintain grid layout */}
+            <div className="w-full"></div>
+            <div className="w-full"></div>
+            <div className="w-full"></div>
+            <div className="w-full"></div>
+          </div>
+        )}
       </div>
 
       {/* Pagination Controls */}

@@ -2,9 +2,11 @@ import { FaGoogle } from "react-icons/fa";
 import { useContext } from "react";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../defaultComponent/Contaxt";
+import { useNavigate } from "react-router-dom";
 
 export default function GoogleAuth() {
   const { loginWithGoogle } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleGoogleAuth = () => {
     loginWithGoogle()
@@ -16,6 +18,7 @@ export default function GoogleAuth() {
           showConfirmButton: false,
           timer: 2000,
         });
+        navigate("/");
         console.log(result.user);
       })
       .catch((error) => {

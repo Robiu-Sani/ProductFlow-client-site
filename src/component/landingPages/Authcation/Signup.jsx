@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import banner from "../../../images/banner.jpg";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import Swal from "sweetalert2";
 import GoogleAuth from "./GoogleAuth";
@@ -30,7 +30,7 @@ export default function Signup() {
         showConfirmButton: false,
         timer: 2000,
       });
-      navigate("/login"); // Navigate to login page after successful signup
+      navigate("/"); // Navigate to login page after successful signup
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -42,7 +42,7 @@ export default function Signup() {
 
   // Navigate to the login page
   const goToLogin = () => {
-    navigate("/login"); // Adjust the path as needed
+    navigate("/"); // Adjust the path as needed
   };
 
   return (
@@ -62,7 +62,7 @@ export default function Signup() {
             onClick={goToLogin}
             className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
           >
-            Back to Login
+            Back to Home
           </button>
           <h2 className="text-2xl font-bold text-center text-gray-800">
             Sign Up
@@ -152,9 +152,9 @@ export default function Signup() {
         <div className="text-center mt-4">
           <p className="text-gray-700">
             Already have an account?{" "}
-            <a href="/login" className="text-red-500 hover:underline">
+            <Link href="/login" className="text-red-500 hover:underline">
               Login
-            </a>
+            </Link>
           </p>
         </div>
       </div>
